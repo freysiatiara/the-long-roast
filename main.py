@@ -14,7 +14,18 @@ LINE = (
 )
 
 
+def _validate(line):
+    """Guard the gate: one non-blank line of 1-200 characters."""
+    if not 1 <= len(line) <= 200:
+        raise ValueError("roast line must be 1-200 characters")
+    if "\n" in line or "\r" in line:
+        raise ValueError("roast line must be a single line")
+    if not line.strip():
+        raise ValueError("roast line must not be blank")
+
+
 def main():
+    _validate(LINE)
     out_path = os.environ.get("OUTPUT_PATH", "/output/entry.txt")
     parent = os.path.dirname(out_path)
     if parent:
